@@ -1,0 +1,68 @@
+{% extends "socialnetwork/base.html" %}
+
+{% block content %}
+    {% load static %}
+    {% if profile_form %}
+        <!-- profile page for logged-in user -->
+        {% if has_picture %}
+            <img src="{% url 'profile_picture' user.username %}" class="profile" width="200" height="200" id="id_user_picture">
+        {% else %}
+            <img src="{% static 'socialnetwork/profile_picture.jpg' %}" class="profile" width="200" height="200" id="id_user_picture">
+        {% endif %}
+        <form method="post" action="{% url 'profile' user.username%}" enctype="multipart/form-data">
+            <table>
+                {{profile_form}}
+            </table>
+            {% csrf_token %}
+            <button type="submit" id="id_update_profile_button">Submit</button>
+        </form>
+
+        You are following:
+        <ul>
+            {% for following_profile in all_following %}
+            <li>
+                <a href="/profile/{{following_profile.profile_user.username}}" id="id_profile_link_{{following_profile.profile_user.username}}">{{following_profile.profile_user.get_full_name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <!-- profile page for other user -->
+        <!-- other_user: instance of Profile -->
+        {% if has_picture %}
+            <img src="{% url 'profile_picture' other_user.profile_user.username %}" class="profile" width="200" height="200" id="id_user_picture">
+        {% else %}
+            <img src="{% static 'socialnetwork/profile_picture.jpg' %}" class="profile" width="200" height="200" id="id_user_picture">
+        {% endif %}
+        <textarea readonly id="id_user_bio">{{other_user.bio_input_text}}</textarea>
+        <form method="post" action="{% url 'profile' other_user.profile_user.username%}">
+            <button type="submit" id="id_{{follow_label}}">{{follow_label}}</button>
+            {% csrf_token %}
+        </form>
+
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

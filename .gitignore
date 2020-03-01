@@ -1,0 +1,6 @@
+*.pyc
+*.pem
+db.sqlite3
+migrations
+.DS_Store
+/hw5/images
